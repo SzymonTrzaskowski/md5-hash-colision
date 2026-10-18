@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MD5 collision demo</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="top">
+    <p class="eyebrow">Identical-prefix collision</p>
+    <h1>Two different files. One MD5.</h1>
+    <p class="lede">
+      Upload two pictures, or generate a plain pair. Both downloads share an MD5
+      and differ in a 128-byte block computed once with FastColl. SHA-256 still
+      tells them apart.
+    </p>
+    <p class="links"><a href="/how-md5-broke">How this works, and how MD5 was broken</a></p>
+  </header>
+
+  <main>
+    <div class="modes" role="tablist">
+      <button type="button" id="tab-pictures" class="mode" role="tab" aria-selected="true" aria-controls="panel-pictures">Two pictures</button>
+      <button type="button" id="tab-files" class="mode" role="tab" aria-selected="false" aria-controls="panel-files">Generate a pair</button>
+    </div>
+
+    <section id="panel-pictures" role="tabpanel">
+      <form id="picture-form">
+        <div class="drops">
+          <label class="drop" id="drop-first">
+            <input type="file" id="file-first" accept="image/*">
+            <span class="drop-kicker">Picture 1</span>
+            <span class="drop-title" id="name-first">Drop an image</span>
+            <span class="drop-hint">PNG, JPEG, WebP, GIF</span>
+            <img id="preview-first" alt="" hidden>
+          </label>
+          <label class="drop" id="drop-second">
+            <input type="file" id="file-second" accept="image/*">
+            <span class="drop-kicker">Picture 2</span>
+            <span class="drop-title" id="name-second">Drop an image</span>
+            <span class="drop-hint">PNG, JPEG, WebP, GIF</span>
+            <img id="preview-second" alt="" hidden>
+          </label>
+        </div>
+        <button type="submit" class="primary" id="picture-submit">Build colliding GIFs</button>
+      </form>
+    </section>
+
+    <section id="panel-files" role="tabpanel" hidden>
+      <form id="file-form">
+        <label class="field" for="shared-text">Shared ending</label>
+        <textarea id="shared-text" rows="5" placeholder="This text is stored in both files. The hashes still match."></textarea>
+        <button type="submit" class="primary" id="file-submit">Build colliding files</button>
+      </form>
+    </section>
+
+    <p id="error" class="error" hidden></p>
+
+    <section id="result" hidden>
+      <div class="hash-row">
+        <div>
+          <p class="kicker">MD5, both files</p>
+          <p class="hash match" id="md5"></p>
+        </div>
+      </div>
+      <div class="pair" id="cards"></div>
+      <div class="diff-wrap">
+        <div class="diff-head">
+          <h2>The 128-byte block</h2>
+          <p id="diff-count"></p>
+        </div>
+        <div class="dumps">
+          <pre id="dump-left" class="dump"></pre>
+          <pre id="dump-right" class="dump"></pre>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
